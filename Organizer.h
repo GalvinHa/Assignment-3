@@ -5,6 +5,7 @@
 #include <string>
 #include "Event.h"
 #include "LinkedBagDS/LinkedBag.h"
+#include <memory>
 
 // To DO: define the class Organizer with the necessary functions and data fields
 
@@ -22,7 +23,7 @@ private:
     std::string password;
     std::string bio;
     std::string profilePicture;
-    LinkedBag<Event*> events; 
+    LinkedBag<std::shared_ptr<Event>> events;
 
 public:
     Organizer();
@@ -37,7 +38,7 @@ public:
     // Member functions
     void displayProfile() const;
     bool modifyPassword(const std::string& newPassword);
-    bool createEvent(Event* event);
+    bool createEvent(std::shared_ptr<Event> event);
     void displayEventK(int k) const;
     void displayAllEvents() const;
     bool modifyEvent(int k);
@@ -49,4 +50,5 @@ public:
     };
 
 
-    #endif
+
+#endif

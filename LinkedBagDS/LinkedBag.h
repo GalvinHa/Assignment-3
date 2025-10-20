@@ -9,10 +9,10 @@
 
 #include "BagInterface.h"
 #include "Node.h"
+#include <memory>
 
 template<class ItemType>
-class LinkedBag : public BagInterface<ItemType>
-{
+class LinkedBag : public BagInterface<ItemType>{
 private:
 	Node<ItemType>* headPtr; // Pointer to first node
 	int itemCount;			  // Current count of bag items

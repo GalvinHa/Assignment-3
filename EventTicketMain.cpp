@@ -54,48 +54,45 @@ void displayOrganizerMenu(Organizer& organizer){
                 break;
 			}
 			case 3: {
-				// TO DO: ask organizer to choose event type, then ask them to input event details.
-				// Create the event and add it to the organizer's events
-				int eventType;
-                cout << "Choose event type (1 for Virtual, 2 for Venue): ";
-                cin >> eventType;
-                cin.ignore();
-                
-                string name, description;
-                cout << "Enter event name: ";
-                getline(cin, name);
-                cout << "Enter event description: ";
-                getline(cin, description);
-                
-                Event* newEvent = nullptr;
-                
-                if (eventType == 1) {
-                    string streamLink, audience;
-                    cout << "Enter stream link: ";
-                    getline(cin, streamLink);
-                    cout << "Enter audience: ";
-                    getline(cin, audience);
-                    newEvent = new VirtualEvent(name, description, streamLink, audience);
-                } else {
-                    string venue, dateTime;
-                    int capacity;
-                    cout << "Enter venue: ";
-                    getline(cin, venue);
-                    cout << "Enter date/time: ";
-                    getline(cin, dateTime);
-                    cout << "Enter capacity: ";
-                    cin >> capacity;
-                    cin.ignore();
-                    newEvent = new VenueEvent(name, description, venue, dateTime, capacity);
-                }
-                
-                if (organizer.createEvent(newEvent)) {
-                    cout << "Event created successfully!" << endl;
-                } else {
-                    cout << "Failed to create event." << endl;
-                    delete newEvent;
-                }
-                break;
+			int eventType;
+			cout << "Choose event type (1 for Virtual, 2 for Venue): ";
+			cin >> eventType;
+			cin.ignore();
+		
+			string name, description;
+			cout << "Enter event name: ";
+			getline(cin, name);
+			cout << "Enter event description: ";
+			getline(cin, description);
+		
+			std::shared_ptr<Event> newEvent;
+		
+			if (eventType == 1) {
+				string streamLink, audience;
+				cout << "Enter stream link: ";
+				getline(cin, streamLink);
+				cout << "Enter audience: ";
+				getline(cin, audience);
+				newEvent = std::make_shared<VirtualEvent>(name, description, streamLink, audience);
+			} else {
+				string venue, dateTime;
+				int capacity;
+				cout << "Enter venue: ";
+				getline(cin, venue);
+				cout << "Enter date/time: ";
+				getline(cin, dateTime);
+				cout << "Enter capacity: ";
+				cin >> capacity;
+				cin.ignore();
+				newEvent = std::make_shared<VenueEvent>(name, description, venue, dateTime, capacity);
+			}
+		
+			if (organizer.createEvent(newEvent)) {
+				cout << "Event created successfully!" << endl;
+			} else {
+				cout << "Failed to create event." << endl;
+			}
+			break;
 			}
 			case 4:{
 				// TO DO: display all organizer's events

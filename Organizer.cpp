@@ -4,6 +4,7 @@
 #include <vector>
 #include "Event.h"
 #include "LinkedBagDS/LinkedBag.h"
+#include <memory>
 // TO DO: function implementations
 Organizer::Organizer() : username(""), email(""), password(""), bio(""), profilePicture("") {}
 
@@ -29,7 +30,7 @@ bool Organizer::modifyPassword(const std::string& newPassword) {
     return false;
 }
 
-bool Organizer::createEvent(Event* event) {
+bool Organizer::createEvent(std::shared_ptr<Event> event) {
     return events.add(event);
 }
 
@@ -38,8 +39,8 @@ void Organizer::displayEventK(int k) const {
         std::cout << "Error: Invalid index. Available events: " << events.getCurrentSize() << std::endl;
         return;
     }
-    
-    std::vector<Event*> eventVector = events.toVector();
+   
+    std::vector<std::shared_ptr<Event>> eventVector = events.toVector();
     std::cout << "\n=== Event " << k << " ===" << std::endl;
     eventVector[k-1]->display();
 }
@@ -49,8 +50,8 @@ void Organizer::displayAllEvents() const {
         std::cout << "\n=== No Events Available ===" << std::endl;
         return;
     }
-    
-    std::vector<Event*> eventVector = events.toVector();
+   
+    std::vector<std::shared_ptr<Event>> eventVector = events.toVector();
     std::cout << "\n=== All Events ===" << std::endl;
     for (size_t i = 0; i < eventVector.size(); i++) {
         std::cout << "Event " << (i+1) << ":" << std::endl;
@@ -64,8 +65,8 @@ bool Organizer::modifyEvent(int k) {
         std::cout << "Error: Invalid index. Available events: " << events.getCurrentSize() << std::endl;
         return false;
     }
-    
-    std::vector<Event*> eventVector = events.toVector();
+   
+    std::vector<std::shared_ptr<Event>> eventVector = events.toVector();
     return eventVector[k-1]->modify();
 }
 
@@ -74,8 +75,8 @@ bool Organizer::sellTicket(int k, int quantity) {
         std::cout << "Error: Invalid index. Available events: " << events.getCurrentSize() << std::endl;
         return false;
     }
-    
-    std::vector<Event*> eventVector = events.toVector();
+   
+    std::vector<std::shared_ptr<Event>> eventVector = events.toVector();
     return eventVector[k-1]->sell(quantity);
 }
 
@@ -84,14 +85,11 @@ bool Organizer::deleteEvent(int k) {
         std::cout << "Error: Invalid index. Available events: " << events.getCurrentSize() << std::endl;
         return false;
     }
-    
-    std::vector<Event*> eventVector = events.toVector();
-    Event* eventToDelete = eventVector[k-1];
-    bool removed = events.remove(eventToDelete);
-    if (removed) {
-        delete eventToDelete;
-    }
-    return removed;
+   
+    std::vector<std::shared_ptr<Event>> eventVector = events.toVector();
+    std::shared_ptr<Event> eventToDelete = eventVector[k-1];
+    return events.remove(eventToDelete);
+
 }
 
 
