@@ -14,8 +14,9 @@ class EventTicket340 {
 
 	public:
 		EventTicket340();
-		explicit EventTicket340(const EventTicket340& os);
 		~EventTicket340();
+		EventTicket340(const EventTicket340& other);
+		EventTicket340& operator=(const EventTicket340& other);
 
 		// Create a new organizer profile
 		void createOrganizer(const std::string& username, const std::string& email, const std::string& password, const std::string& bio, const std::string& profilePicture);

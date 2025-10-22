@@ -6,6 +6,55 @@
 #include "LinkedBagDS/LinkedBag.h"
 #include <memory>
 // TO DO: function implementations
+// Organizer BIG 3 implementation
+Organizer::~Organizer() {
+}
+
+Organizer::Organizer(const Organizer& other) 
+    : username(other.username), email(other.email), password(other.password),
+      bio(other.bio), profilePicture(other.profilePicture) {
+    
+    // Deep copy events - create new shared_ptrs for each event
+    std::vector<std::shared_ptr<Event>> otherEvents = other.events.toVector();
+    for (const auto& eventPtr : otherEvents) {
+        if (auto virtualEvent = std::dynamic_pointer_cast<VirtualEvent>(eventPtr)) {
+            events.add(std::make_shared<VirtualEvent>(*virtualEvent));
+        } else if (auto venueEvent = std::dynamic_pointer_cast<VenueEvent>(eventPtr)) {
+            events.add(std::make_shared<VenueEvent>(*venueEvent));
+        } else {
+            events.add(std::make_shared<Event>(*eventPtr));
+        }
+    }
+}
+
+Organizer& Organizer::operator=(const Organizer& other) {
+    if (this != &other) {
+        username = other.username;
+        email = other.email;
+        password = other.password;
+        bio = other.bio;
+        profilePicture = other.profilePicture;
+        
+        // Clear current events
+        events.clear();
+        
+        // Deep copy events from other organizer
+        std::vector<std::shared_ptr<Event>> otherEvents = other.events.toVector();
+        for (const auto& eventPtr : otherEvents) {
+            if (auto virtualEvent = std::dynamic_pointer_cast<VirtualEvent>(eventPtr)) {
+                events.add(std::make_shared<VirtualEvent>(*virtualEvent));
+            } else if (auto venueEvent = std::dynamic_pointer_cast<VenueEvent>(eventPtr)) {
+                events.add(std::make_shared<VenueEvent>(*venueEvent));
+            } else {
+                events.add(std::make_shared<Event>(*eventPtr));
+            }
+        }
+    }
+    return *this;
+}
+
+
+
 Organizer::Organizer() : username(""), email(""), password(""), bio(""), profilePicture("") {}
 
 Organizer::Organizer(const std::string& username, const std::string& email,
@@ -132,3 +181,4 @@ std::istream& operator>>(std::istream& is, Organizer& organizer) {
     
     return is;
 }
+

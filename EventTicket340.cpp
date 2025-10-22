@@ -4,9 +4,29 @@
 #include "EventTicket340.h"
 #include "Organizer.h" 
 // TO DO: implement constructor
+
+// EventTicket340 BIG 3 implementation
+EventTicket340::~EventTicket340() {
+}
+
+EventTicket340::EventTicket340(const EventTicket340& other) {
+    if (other.organizer) {
+        organizer = std::make_unique<Organizer>(*other.organizer);
+    }
+}
+
+EventTicket340& EventTicket340::operator=(const EventTicket340& other) {
+    if (this != &other && other.organizer) {
+        organizer = std::make_unique<Organizer>(*other.organizer);
+    } else if (!other.organizer) {
+        organizer.reset();
+    }
+    return *this;
+}
+
+
 EventTicket340::EventTicket340() : organizer(nullptr) {}
 
-EventTicket340::~EventTicket340() {}
 
 
 
@@ -21,5 +41,6 @@ Organizer& EventTicket340::getOrganizer() const {
 
 std::ostream& operator<<(std::ostream& os, const EventTicket340& app) {
     os << "Welcome to EventTicket340!";
+    
     return os;
 }

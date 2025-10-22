@@ -179,11 +179,10 @@ int main(){
 	cout << eventTicket340 << endl;
 	
     // Create organizer using input operator
-
 	    
     // Create the organizer in the system using the temporary organizer's data
  	Organizer tempOrganizer;
-    cin.ignore(); // Clear the newline from previous input
+
     cin >> tempOrganizer;
     
     // Create the organizer in the system with all data including password

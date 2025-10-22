@@ -3,6 +3,26 @@
 #include <iostream>
 #include <string>
 // TO DO: function implementations
+
+// Base Event class BIG 3 implementation
+Event::~Event() {
+
+}
+Event::Event(const Event& other) 
+    : name(other.name), description(other.description), 
+      rating(other.rating), soldTicketsCount(other.soldTicketsCount) {
+}
+
+Event& Event::operator=(const Event& other) {
+    if (this != &other) {
+        name = other.name;
+        description = other.description;
+        rating = other.rating;
+        soldTicketsCount = other.soldTicketsCount;
+    }
+    return *this;
+}
+
 Event::Event() : name(""), description(""), rating(0), soldTicketsCount(0) {}
 
 Event::Event(const std::string& name, const std::string& description)
@@ -16,7 +36,7 @@ void Event::display() const {
 }
 
 bool Event::modify() {
-    std::cin.ignore(); // Clear any remaining newline
+    std::cin.ignore();
     std::string newName, newDesc;
     std::cout << "Enter new name (current: " << name << "): ";
     std::getline(std::cin, newName);
@@ -37,12 +57,24 @@ bool Event::sell(int quantity) {
     return false;
 }
 
-// Operator overloading implementation
 bool Event::operator==(const Event& otherEvent) const {
     return name == otherEvent.name;
 }
 
-// Virtual event
+// VirtualEvent implementation
+VirtualEvent::VirtualEvent(const VirtualEvent& other) 
+    : Event(other), streamLink(other.streamLink), audience(other.audience) {
+}
+
+VirtualEvent& VirtualEvent::operator=(const VirtualEvent& other) {
+    if (this != &other) {
+        Event::operator=(other);
+        streamLink = other.streamLink;
+        audience = other.audience;
+    }
+    return *this;
+}
+
 VirtualEvent::VirtualEvent() : Event(), streamLink(""), audience("") {}
 
 VirtualEvent::VirtualEvent(const std::string& name, const std::string& description,
@@ -71,6 +103,20 @@ bool VirtualEvent::modify() {
 }
 
 // VenueEvent implementation
+VenueEvent::VenueEvent(const VenueEvent& other) 
+    : Event(other), venue(other.venue), dateTime(other.dateTime), capacity(other.capacity) {
+}
+
+VenueEvent& VenueEvent::operator=(const VenueEvent& other) {
+    if (this != &other) {
+        Event::operator=(other);
+        venue = other.venue;
+        dateTime = other.dateTime;
+        capacity = other.capacity;
+    }
+    return *this;
+}
+
 VenueEvent::VenueEvent() : Event(), venue(""), dateTime(""), capacity(0) {}
 
 VenueEvent::VenueEvent(const std::string& name, const std::string& description,
@@ -97,4 +143,49 @@ bool VenueEvent::modify() {
     if (!newDateTime.empty()) dateTime = newDateTime;
     
     return true;
+}
+
+// Operator implementations
+std::ostream& operator<<(std::ostream& os, const Event& event) {
+    event.display();
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, Event& event) {
+    std::cout << "Enter event name: ";
+    std::getline(is, event.name);
+    std::cout << "Enter event description: ";
+    std::getline(is, event.description);
+    return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const VirtualEvent& event) {
+    event.display();
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, VirtualEvent& event) {
+    is >> static_cast<Event&>(event);
+    std::cout << "Enter stream link: ";
+    std::getline(is, event.streamLink);
+    std::cout << "Enter audience: ";
+    std::getline(is, event.audience);
+    return is;
+}
+
+std::ostream& operator<<(std::ostream& os, const VenueEvent& event) {
+    event.display();
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, VenueEvent& event) {
+    is >> static_cast<Event&>(event);
+    std::cout << "Enter venue: ";
+    std::getline(is, event.venue);
+    std::cout << "Enter date/time: ";
+    std::getline(is, event.dateTime);
+    std::cout << "Enter capacity: ";
+    is >> event.capacity;
+    is.ignore();
+    return is;
 }
