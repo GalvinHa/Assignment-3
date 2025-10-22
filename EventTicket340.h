@@ -12,10 +12,14 @@ class Organizer;
 class EventTicket340 {
 	private:
 		Organizer* organizer;
+		explicit EventTicket340(const EventTicket340& os);
 
 	public:
 		EventTicket340();
 		~EventTicket340();
+		explicit EventTicket340(const EventTicket340& os);
+
+		friend Organizer operator<<(std::ostream& os, const Organizer& org);
 
 		// Create a new organizer profile
 		void createOrganizer(const std::string& username, const std::string& email, const std::string& password, const std::string& bio, const std::string& profilePicture);

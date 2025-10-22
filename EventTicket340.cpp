@@ -13,6 +13,12 @@ EventTicket340::~EventTicket340() {
 
 // TO DO: implement destructor
 
+std::ostream& operator<<(std::ostream& os, const EventTicket340& EventTicket340Obj /*et*/) {
+    os << EventTicket340Obj;
+    return os;
+}
+
+
 void EventTicket340::createOrganizer(const std::string& username, const std::string& email, const std::string& password, const std::string& bio, const std::string& profilePicture){
 	// TO DO: implement function
     if (organizer != nullptr) {
