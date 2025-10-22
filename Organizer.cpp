@@ -98,3 +98,37 @@ bool Organizer::deleteEvent(int k) {
 bool Organizer::operator==(const Organizer& otherOrganizer) const {
 	return (Organizer::username == otherOrganizer.username) && (Organizer::email == otherOrganizer.email);
 }
+
+
+// Output operator implementation
+std::ostream& operator<<(std::ostream& os, const Organizer& organizer) {
+    os << "\n=== Organizer Profile ===" << std::endl;
+    os << "Username: " << organizer.username << std::endl;
+    os << "Email: " << organizer.email << std::endl;
+    os << "Bio: " << organizer.bio << std::endl;
+    os << "Profile Picture: " << organizer.profilePicture << std::endl;
+    os << "Total Events: " << organizer.events.getCurrentSize() << std::endl;
+    return os;
+}
+
+// Input operator implementation
+std::istream& operator>>(std::istream& is, Organizer& organizer) {
+    std::cout << "Enter organizer information:" << std::endl;
+    
+    std::cout << "Username: ";
+    std::getline(is, organizer.username);
+    
+    std::cout << "Email: ";
+    std::getline(is, organizer.email);
+    
+    std::cout << "Password: ";
+    std::getline(is, organizer.password);
+    
+    std::cout << "Bio: ";
+    std::getline(is, organizer.bio);
+    
+    std::cout << "Profile Picture URL: ";
+    std::getline(is, organizer.profilePicture);
+    
+    return is;
+}

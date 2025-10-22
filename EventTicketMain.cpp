@@ -173,35 +173,36 @@ void displayOrganizerMenu(Organizer& organizer){
 
 
 int main(){
-	// Instantiating the program using the default constructor
-	// With this implementation, the application will only have one organizer
+
 	EventTicket340 eventTicket340; 
 	string string1 = "Welcome to EventTicket340"; 
-	cout << string1 << endl;
-	// TO DO: Ask the organizer to enter their information 
-	//        Instantiate a new Organizer object
+	cout << eventTicket340 << endl;
+	
+    // Create organizer using input operator
 
-	string username, email, password, bio, profilePicture;
-    cout << "Enter your username: ";
-    getline(cin, username);
-    cout << "Enter your email: ";
-    getline(cin, email);
-    cout << "Enter your password: ";
-    getline(cin, password);
-    cout << "Enter your bio: ";
-    getline(cin, bio);
-    cout << "Enter profile picture URL: ";
-    getline(cin, profilePicture);
+	    
+    // Create the organizer in the system using the temporary organizer's data
+ 	Organizer tempOrganizer;
+    cin.ignore(); // Clear the newline from previous input
+    cin >> tempOrganizer;
+    
+    // Create the organizer in the system with all data including password
+    	eventTicket340.createOrganizer(
+        tempOrganizer.getUsername(),
+        tempOrganizer.getEmail(),
+        tempOrganizer.getPassword(), 
+        tempOrganizer.getBio(),
+        tempOrganizer.getProfilePicture()
+    );
+
+    // Retrieve the organizer 
+    Organizer& currentOrganizer = eventTicket340.getOrganizer();
+
 
 	// call eventTicket340 createOrganizer function 
-	// replace /*...*/ with the right parameters
-	eventTicket340.createOrganizer(username, email, password, bio, profilePicture);
-
-	// Retrieve the organizer 
-	Organizer& currentOrganizer = eventTicket340.getOrganizer();
 
 	// Display the main menu
-	displayOrganizerMenu(currentOrganizer);
+    displayOrganizerMenu(currentOrganizer);
 				
 	return 0;
 }

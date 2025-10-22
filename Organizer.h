@@ -28,13 +28,15 @@ private:
 public:
     Organizer();
     Organizer(const std::string& username, const std::string& email, const std::string& password, const std::string& bio, const std::string& profilePicture);
-    
+   
     // Getters
     std::string getUsername() const { return username; }
     std::string getEmail() const { return email; }
     std::string getBio() const { return bio; }
     std::string getProfilePicture() const { return profilePicture; }
-    
+    std::string getPassword() const { return password; }
+
+   
     // Member functions
     void displayProfile() const;
     bool modifyPassword(const std::string& newPassword);
@@ -45,10 +47,15 @@ public:
     bool sellTicket(int k, int quantity);
     bool deleteEvent(int k);
 
+    bool operator==(const Organizer& otherOrganizer) const;
 
-    bool operator==(const Organizer& otherOrganizer) const; 
-    };
+    // Friend functions 
+    friend std::ostream& operator<<(std::ostream& os, const Organizer& organizer);
+    friend std::istream& operator>>(std::istream& is, Organizer& organizer);
+};
 
-
+    // Operator declarations 
+    std::ostream& operator<<(std::ostream& os, const Organizer& organizer);
+    std::istream& operator>>(std::istream& is, Organizer& organizer);
 
 #endif
